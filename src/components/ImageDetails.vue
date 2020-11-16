@@ -5,12 +5,13 @@
   >
     <v-card
       dark
-      height="90vh"
+      :height="$vuetify.breakpoint.mdAndUp ? '90vh': ''"
       width="90vw"
     >
       <v-row no-gutters>
         <v-col
-          cols="8"
+          md="8"
+          sm="12"
           class="black"
         >
           <v-img
@@ -22,7 +23,8 @@
         </v-col>
 
         <v-col
-          cols="4"
+          md="4"
+          sm="12"
         >
           <v-card-title>
             <v-spacer />
