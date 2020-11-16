@@ -7,10 +7,10 @@
       :selected-window="filters.selectedWindow"
       :selected-section="filters.selectedSection"
       :is-loading="isLoading"
-      @change-show-viral="filters.isShowViral = $event, resetAndFetch()"
-      @change-sort="filters.selectedSort = $event, resetAndFetch()"
-      @change-window="filters.selectedWindow = $event, resetAndFetch()"
-      @change-section="filters.selectedSection = $event, resetAndFetch()"
+      @change-show-viral="filters.isShowViral = $event, resetAndFetchGallery()"
+      @change-sort="filters.selectedSort = $event, resetAndFetchGallery()"
+      @change-window="filters.selectedWindow = $event, resetAndFetchGallery()"
+      @change-section="filters.selectedSection = $event, resetAndFetchGallery()"
     />
 
     <ImageGallery
@@ -42,15 +42,15 @@ export default {
     };
   },
   mounted() {
-    this.fetchImages();
+    this.fetchGallery();
     this.handleInfiniteScroll();
   },
   methods: {
-    resetAndFetch() {
+    resetAndFetchGallery() {
       this.galleries = [];
-      this.fetchImages();
+      this.fetchGallery();
     },
-    fetchImages() {
+    fetchGallery() {
       this.isLoading = true;
       const url = `/gallery/${this.filters.selectedSection}/${this.filters.selectedSort}/${this.filters.selectedWindow}/${this.page}`;
 
@@ -75,7 +75,7 @@ export default {
 
         if (bottomOfWindow) {
           this.page += 1;
-          this.fetchImages();
+          this.fetchGallery();
         }
       };
     },
