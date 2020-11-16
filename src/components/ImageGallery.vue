@@ -15,17 +15,18 @@
         >
           <v-img
             :src="getThumbnail(image)"
-          />
-
-          <template>
-            <v-divider />
-
-            <v-card-text class="py-1">
-              <div>
-                {{ image.description || '-' | truncate }}
-              </div>
-            </v-card-text>
-          </template>
+          >
+            <v-row class="fill-height">
+              <v-card-text
+                v-if="image.description"
+                class="py-1 image-description mt-auto"
+              >
+                <div>
+                  {{ image.description | truncate }}
+                </div>
+              </v-card-text>
+            </v-row>
+          </v-img>
         </v-card>
       </v-col>
     </template>
@@ -51,12 +52,13 @@ export default {
   components: { ImageGallerySkeleton },
   filters: {
     truncate(string) {
+      const truncateLength = 30;
       if (!string) return '';
 
-      if (string.length <= 50) {
+      if (string.length <= truncateLength) {
         return string;
       }
-      return `${string.substr(0, 50)}...`;
+      return `${string.substr(0, truncateLength)}...`;
     },
   },
   props: {
@@ -80,3 +82,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .image-description {
+    background:#000000c2
+  }
+</style>
