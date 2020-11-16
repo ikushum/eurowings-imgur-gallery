@@ -6,7 +6,9 @@
       </label>
 
       <v-checkbox
+        id="isShowViralCheckbox"
         :input-value="isShowViral"
+        :value="isShowViral"
         dark
         hide-details
         class="pa-0 ma-0"
@@ -21,6 +23,7 @@
       </label>
 
       <v-btn-toggle
+        id="selectedSection"
         :value="selectedSection"
         dark
         @change="$emit('change-section', $event)"
@@ -44,6 +47,7 @@
       </label>
 
       <v-btn-toggle
+        id="selectedWindow"
         :value="selectedWindow"
         dark
         @change="$emit('change-window', $event)"
@@ -67,6 +71,7 @@
       </label>
 
       <v-btn-toggle
+        id="selectedSort"
         :value="selectedSort"
         dark
         @change="$emit('change-sort', $event)"
