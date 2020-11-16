@@ -1,90 +1,17 @@
 <template>
   <v-container>
-    <div class="my-10">
-      <div class="d-flex align-center mb-5">
-        <label class="white--text mr-3">
-          Show Viral Images
-        </label>
-
-        <v-checkbox
-          v-model="filters.isShowViral"
-          dark
-          hide-details
-          class="pa-0 ma-0"
-          :disabled="isLoading"
-          @change="resetAndFetch()"
-        />
-      </div>
-
-      <div class="mb-5">
-        <label class="white--text mr-3">
-          Section:
-        </label>
-
-        <v-btn-toggle
-          v-model="filters.selectedSection"
-          dark
-          @change="resetAndFetch()"
-        >
-          <v-btn
-            v-for="sectionOption in filterOptions.sectionOptions"
-            :key="sectionOption"
-            dark
-            small
-            :disabled="isLoading"
-            :value="sectionOption"
-          >
-            {{ sectionOption }}
-          </v-btn>
-        </v-btn-toggle>
-      </div>
-
-      <div class="mb-5">
-        <label class="white--text mr-3">
-          Window:
-        </label>
-
-        <v-btn-toggle
-          v-model="filters.selectedWindow"
-          dark
-          @change="resetAndFetch()"
-        >
-          <v-btn
-            v-for="windowOption in filterOptions.windowOptions"
-            :key="windowOption"
-            dark
-            small
-            :disabled="isLoading"
-            :value="windowOption"
-          >
-            {{ windowOption }}
-          </v-btn>
-        </v-btn-toggle>
-      </div>
-
-      <div class="mb-5">
-        <label class="white--text mr-3">
-          Sort By:
-        </label>
-
-        <v-btn-toggle
-          v-model="filters.selectedSort"
-          dark
-          @change="resetAndFetch()"
-        >
-          <v-btn
-            v-for="sortOption in filterOptions.sortOptions"
-            :key="sortOption"
-            dark
-            small
-            :disabled="isLoading || filters.selectedSection !== 'user'"
-            :value="sortOption"
-          >
-            {{ sortOption }}
-          </v-btn>
-        </v-btn-toggle>
-      </div>
-    </div>
+    <ImageFilters
+      class="my-10"
+      :is-show-viral="filters.isShowViral"
+      :selected-sort="filters.selectedSort"
+      :selected-window="filters.selectedWindow"
+      :selected-section="filters.selectedSection"
+      :is-loading="isLoading"
+      @change-show-viral="filters.isShowViral = $event, resetAndFetch()"
+      @change-sort="filters.selectedSort = $event, resetAndFetch()"
+      @change-window="filters.selectedWindow = $event, resetAndFetch()"
+      @change-section="filters.selectedSection = $event, resetAndFetch()"
+    />
 
     <ImageGallery
       class="my-10"
@@ -96,28 +23,22 @@
 
 <script>
 import ImageGallery from '@/components/ImageGallery.vue';
+import ImageFilters from '@/components/ImageFilters.vue';
 
 export default {
   name: 'Home',
-  components: { ImageGallery },
+  components: { ImageGallery, ImageFilters },
   data() {
     return {
-      filterOptions: {
-        sectionOptions: ['hot', 'top', 'user'],
-        sortOptions: ['viral', 'top', 'time', 'rising'],
-        windowOptions: ['day', 'week', 'month', 'year', 'all'],
-      },
       isLoading: false,
       filters: {
-        selectedSection: 'top',
-        selectedSort: 'viral',
         isShowViral: true,
+        selectedSort: 'viral',
         selectedWindow: 'day',
+        selectedSection: 'top',
       },
       galleries: [],
       page: 0,
-      window: 'day',
-      perPage: 10,
     };
   },
   mounted() {
