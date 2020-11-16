@@ -12,6 +12,7 @@
           outlined
           dark
           height="100%"
+          @click="selectedImage = image"
         >
           <v-img
             :src="getThumbnail(image)"
@@ -42,14 +43,21 @@
         <ImageGallerySkeleton />
       </v-col>
     </template>
+
+    <ImageDetails
+      v-if="selectedImage"
+      :image="selectedImage"
+      @close="selectedImage = null"
+    />
   </v-row>
 </template>
 
 <script>
 import ImageGallerySkeleton from '@/components/ImageGallerySkeleton.vue';
+import ImageDetails from '@/components/ImageDetails.vue';
 
 export default {
-  components: { ImageGallerySkeleton },
+  components: { ImageGallerySkeleton, ImageDetails },
   filters: {
     truncate(string) {
       const truncateLength = 30;
@@ -73,10 +81,16 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      selectedImage: null,
+    };
+  },
   methods: {
     getThumbnail(image) {
       const imageBase = 'https://i.imgur.com/';
-      const imageExtension = image.link.split('.')[image.link.split('.').length - 1];
+      const splittedByDot = image.link.split('.');
+      const imageExtension = splittedByDot[splittedByDot.length - 1];
       return `${imageBase + image.id}b.${imageExtension}`;
     },
   },
